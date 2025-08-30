@@ -1,0 +1,77 @@
+<script>
+const DashboardPage = {
+  template: '#dashboard-page',
+  setup(){
+    const userStore = useUserStore();
+    const customerStore = useCustomerStore();
+    const snackbarStore = useSnackbarStore();
+    const utilityStore = useUtilityStore();
+    return { userStore, snackbarStore, customerStore, utilityStore};
+  },
+  data() {
+    return {
+    }
+  },
+ computed: {   
+    customerRequests() {
+      return this.customerStore.getCustomerRequests.map(custR => ({
+        customerName: custR.customerName,
+        priority: custR.priority,
+        deliveryDate: custR.deliveryDate,
+        stage: custR.stage,
+      }));
+    },
+    customerRequestHeaders() {
+      const includedHeaders = ['customerName', 'priority', 'deliveryDate', 'stage']
+      return this.customerStore.getCustomerRequestHeaders.filter(custRH => includedHeaders.includes(custRH.key));
+    }
+  },
+  beforeMount() {
+     this.getDropdown()
+     this.getCustomerRequests()
+  },
+  mounted(){
+  },
+  methods: {
+    async getCustomerRequests(){
+      this.utilityStore.showLoadingSpinner()
+      const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMER_REQUESTS', {})
+        .then((response)=>{
+          logger.log('Customer Requests successfully fetched: ', response)
+          this.customerStore.setCustomerRequests(response.data.data)
+          this.customerStore.setCustomerRequestHeaders(response.data.headers)
+          this.customerStore.setCustomerRequestSummary(response.data.summary)
+          this.utilityStore.hideLoadingSpinner()
+        }).catch((error) => {
+          this.utilityStore.hideLoadingSpinner()
+          logger.error(error)
+          this.snackbarStore.showSnackbar(error?.message, "red");
+        });
+
+    },
+    async getDropdown(){
+      // check if nav options is loaded in store
+      const navOptions = this.utilityStore.getNavBarDropdownOptions
+      if(navOptions.length === 0){
+        //get options from api
+        const response = await apiCall('CONTROLLER_GET_NAV_DROPDOWN_OPTIONS', {})
+          .then((response)=>{
+
+            logger.log('Nav Bar Dropdown options successfully fetched: ', response)
+            this.utilityStore.updateNavBarDropdownOptions(response.data)
+
+          }).catch((error) => {
+            logger.error(error)
+            this.snackbarStore.showSnackbar(error?.message, "red");
+
+        });
+      }
+    },
+    logout(){
+      this.userStore.logout()
+      window.router.push({ path: "/" }).catch(() => {});
+
+    }
+  }
+};
+</script>

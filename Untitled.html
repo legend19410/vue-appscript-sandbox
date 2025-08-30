@@ -1,0 +1,96 @@
+ <v-dialog v-model="viewDialog" max-width="900">
+          <v-card>
+            <v-card-title class="text-h5">Detail</v-card-title>
+            <table style="
+                width: 98%;
+                border-collapse: collapse;
+                margin: 10px;
+                padding: 20px;
+                background-color: #f9f9f9;
+              ">
+              <tr style="border-bottom: 1px solid #ddd" v-for="fld in schema" :key="fld.key">
+                <td style="
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    width: 30%;
+                  ">
+                  {{fld.label}}
+                </td>
+                <td style="
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    width: 70%;
+                  ">
+                  <template v-if="fld.type === 'date'">
+                    {{new
+                    Date(editedItem[fld.key]).toLocaleDateString(prefs.Locale)
+                    }}
+                  </template>
+                  <template v-else-if="fld.type === 'time'">
+                    {{editedItem[fld.key]}}
+                  </template>
+                  <template v-else-if="fld.type === 'link'">
+                    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+                  </template>
+                  <template v-else-if="fld.type === 'file'">
+                    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+                  </template>
+                  <template v-else-if="fld.type === 'image'">
+                    <a :href="editedItem[fld.key]" target="_blank">
+                      <v-avatar :image="editedItem[fld.key]" size="64"></v-avatar></a>
+                  </template>
+                  <template v-else-if="fld.type === 'number_currency'">
+                    {{editedItem[fld.key]?.toLocaleString(prefs.Locale, { style:
+                    'currency', currency: prefs.Currency, })}}
+                  </template>
+                  <template v-else-if="fld.type === 'file'">
+                    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+                  </template>
+                  <template v-else-if="fld.key === 'Customer'">
+                    <template
+                      v-if="indexedDD && indexedDD['Customers'] && editedItem[fld.key] && indexedDD['Customers'][editedItem[fld.key]]">
+                      Name:
+                      <!-- {{indexedDD['Customers'][editedItem[fld.key]]?['Name']}} -->
+                      {{ indexedDD['Customers'][editedItem[fld.key]]?.Name }}
+                      <br />
+                      Email:
+                      {{indexedDD['Customers'][editedItem[fld.key]]['Email']}}
+                      <br />
+                      Phone:
+                      {{indexedDD['Customers'][editedItem[fld.key]]['Phone']}}
+                      <br />
+                      Address:
+                      {{indexedDD['Customers'][editedItem[fld.key]]['Address']}}
+                    </template>
+                    <template v-else> {{editedItem[fld.key]}} </template>
+                  </template>
+                  <template v-else> {{editedItem[fld.key]}} </template>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #ddd" v-if="editedItem['history']">
+                <td style="
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    width: 30%;
+                  ">
+                  Edit History
+                </td>
+                <td style="
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    width: 70%;
+                  ">
+                  <v-timeline side="end">
+                    <v-timeline-item class="mb-4" dot-color="green" size="small"
+                      v-for="(o,i) in JSON.parse(editedItem['history'])" :key="i">{{o}}
+                    </v-timeline-item>
+                  </v-timeline>
+                </td>
+              </tr>
+            </table>
+          </v-card>
+        </v-dialog>

@@ -1,0 +1,11 @@
+<template v-for="header in headers.filter((header) => header.type==='tags')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+      <div class="text-center" v-if="value!=''">
+        <v-chip-group>
+          <v-chip v-for="tag in value.split(',')" :key="tag" color="lime" label size="small">
+            {{tag}}
+          </v-chip>
+        </v-chip-group>
+      </div>
+</template>
+

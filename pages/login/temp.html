@@ -1,0 +1,66 @@
+<template id="login-page">
+  <v-container class="fill-height d-flex align-center justify-center" fluid>
+    <!-- Background image overlay -->
+    <v-img
+      src="https://images.unsplash.com/photo-1522204502585-5292fdb46b62?auto=format&fit=crop&w=1920&q=80"
+      cover
+      class="position-absolute top-0 left-0 w-100 h-100"
+    ></v-img>
+    <v-container class="d-flex align-center justify-center position-relative" style="z-index: 1;">
+      <v-card
+        elevation="12"
+        class="pa-6"
+        style="max-width: 400px; width: 100%; backdrop-filter: blur(12px); background-color: rgba(255,255,255,0.85);"
+      >
+        <div class="text-center mb-6">
+          <v-avatar size="80" class="mb-3" color="primary">
+            <v-icon size="48" color="white">mdi-account-circle</v-icon>
+          </v-avatar>
+          <h3 class="font-weight-bold">Welcome Back</h3>
+          <p class="text-grey-darken-1">Log in to continue</p>
+        </div>
+
+        <v-form>
+          <v-text-field
+            v-model="email"
+            label="Email"
+            prepend-inner-icon="mdi-email-outline"
+            variant="outlined"
+            density="comfortable"
+            class="mb-4"
+            clearable
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="password"
+            label="Password"
+            prepend-inner-icon="mdi-lock-outline"
+            variant="outlined"
+            density="comfortable"
+            clearable
+            required
+            type="password"
+          ></v-text-field>
+
+          <v-btn
+            block
+            class="mt-4"
+            size="large"
+            color="primary"
+            @click="login"
+          >
+            Log in
+          </v-btn>
+
+          <div class="text-center mt-4">
+            <small>
+              Don’t have an account?
+              <a href="#" class="text-primary">Sign up</a>
+            </small>
+          </div>
+        </v-form>
+      </v-card>
+    </v-container>
+  </v-container>
+</template>

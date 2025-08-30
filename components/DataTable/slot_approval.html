@@ -1,0 +1,7 @@
+<template v-slot:item.approval="{ item }">
+      <div class="text-center">
+        <v-chip :color="item.approval == 'Yes' ? 'green' : 'red'" :text="item.approval == 'Yes' ? 'Yes' : 'No'"
+          :prepend-icon="item.approval == 'Yes' ? 'mdi-checkbox-marked-circle' : 'mdi-close'" class="ma-2" size="small">
+          {{item.approval}}</v-chip>
+      </div>
+</template>

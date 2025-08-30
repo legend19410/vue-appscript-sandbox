@@ -1,0 +1,42 @@
+<script>
+
+// Define a Pinia store
+const useUtilityStore = defineStore('utility', {
+  state: () => ({
+    loading: false,
+    drawer: false,
+    navBarDropdownOptions: []
+  }),
+  getters: {
+    getDrawer: (state) => state.drawer,
+    getNavBarDropdownOptions: (state) => state.navBarDropdownOptions,
+    getLoadingStatus: (state) => state.loading
+
+
+  },
+  actions: {
+    toggleDrawer() {
+      this.drawer = !this.drawer
+    },
+    showNavDrawer(){
+      this.drawer = true;
+    },
+    hideNavDrawer(){
+      this.drawer = false;
+    },
+    updateNavBarDropdownOptions(options){
+      this.navBarDropdownOptions = options
+    },
+    toggleLoading(){
+      this.loading = !this.loading
+    },
+    showLoadingSpinner(){
+      this.loading = true
+    },
+    hideLoadingSpinner(){
+      this.loading = false
+    }
+  }
+});
+
+</script>

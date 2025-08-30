@@ -1,0 +1,48 @@
+<script>
+
+function apiCall(functionName, params = {}) {
+  const accessToken = localStorage.getItem("accessToken");
+  params['token'] = accessToken ?? "";
+  params = JSON.stringify(params);
+
+  return new Promise((resolve, reject) => {
+    google.script.run
+      .withSuccessHandler((response) => {
+        const parsed = JSON.parse(response);
+
+        // If backend sent an error status code, treat as reject
+        if (parsed.statusCode && parsed.statusCode !== 200) {
+          reject(parsed); // you get {statusCode: 401, message: "..."}
+        } else {
+          resolve(parsed);
+        }
+      })
+      .withFailureHandler((error) => {
+        reject({
+          statusCode: 500,
+          message: error?.message || "Unexpected server error",
+          raw: error
+        });
+      })[functionName](params);
+  });
+}
+
+
+// Set based on environment
+  window.ENABLE_LOGS = true;  // in dev
+  // window.ENABLE_LOGS = false; // in production
+
+  window.logger = {
+    log: (...args) => {
+      if (window.ENABLE_LOGS) console.log(...args);
+    },
+    warn: (...args) => {
+      if (window.ENABLE_LOGS) console.warn(...args);
+    },
+    error: (...args) => {
+      // errors should usually always show
+      console.error(...args);
+    }
+  }
+
+</script>

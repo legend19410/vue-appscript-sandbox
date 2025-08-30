@@ -1,0 +1,54 @@
+<script>
+  const { createApp, markRaw} = Vue;
+  const { createVuetify } = Vuetify;
+  const vuetify = createVuetify();
+  const { createPinia } = Pinia;
+ 
+
+       // Install Pinia
+  const pinia = createPinia();
+  
+  createApp({
+    template: "#app-template",
+    //  mixins: [
+    //   authMixin,
+    // ],
+    setup(){
+      const snackbarStore = useSnackbarStore();
+      const utilityStore = useUtilityStore();
+
+      return { snackbarStore, utilityStore};
+    },
+    data: () => ({
+     
+    }),
+
+    computed: {
+    
+    },
+
+    watch: {
+    
+    },
+
+    mounted() {
+   
+    },
+
+    methods: {
+     
+    },
+  }).component('MyAppBar', window.MyAppBar)
+  .component('UserManagerTable', window.UserManagerTable)
+  .component('DataTable', window.DataTable)
+  .component('CustomerRequestsTable', window.CustomerRequestsTable)
+  .component('CustomersTable', window.CustomersTable)
+  .component('MyNavDrawer', window.MyNavDrawer)
+  .component('SecurityOverview', window.SecurityOverview)
+  .component('CustomerOverview', window.CustomerOverview)
+
+  .use(vuetify)
+  .use(pinia)
+  .use(window.router)
+  .mount("#app");
+</script>

@@ -1,0 +1,24 @@
+<template id="dashboard-page">
+  <!-- <v-card> -->
+  <v-layout>
+
+    <v-app-bar color="primary" prominent>
+      <my-app-bar @toggle-drawer="utilityStore.toggleDrawer" :drawer="utilityStore.getDrawer" />
+    </v-app-bar>
+
+    <my-nav-drawer 
+      v-model="utilityStore.drawer"
+      :nav-bar-dropdown-options="utilityStore.getNavBarDropdownOptions"
+    ></my-nav-drawer>
+
+    <v-main style="height:100vh">
+      <customer-overview 
+          :requests="customerRequests" 
+          :headers="customerRequestHeaders" 
+          :summary="customerStore.getCustomerRequestSummary"
+      />
+    </v-main>
+
+  </v-layout>
+  <!-- </v-card> -->
+</template>

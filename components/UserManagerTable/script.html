@@ -1,0 +1,58 @@
+<script>
+ window.UserManagerTable = {
+  template: '#user-manager-table-component',
+  data() {
+    return {
+      users: {},
+       dialogDeleteUser: false,
+        dialogChangeUserRole: false,
+        dialogChangeUserJobRole: false,
+      userHeaders: [
+          { title: "Name", align: "start", key: "name" },
+          { title: "Email", align: "start", key: "email" },
+          { title: "Role", align: "start", key: "role" },
+          { title: "Job Roles", align: "start", key: "jobRoles" },
+          { title: "Status", align: "start", key: "status" },
+          { title: "Actions", align: "start", key: "action" },
+        ],
+        invitationHeaders: [
+          { title: "Email", align: "start", key: "email" },
+          { title: "Invitation", align: "start", key: "invitation" },
+          { title: "Role", align: "start", key: "role" },
+          { title: "Status", align: "start", key: "status" },
+          { title: "Actions", align: "start", key: "action" },
+        ],
+        userRoles: ["standard", "admin"],
+        jobRoles: [
+          "Designing",
+          "Flex Printing",
+          "Digital Printing",
+          "Offset Printing",
+          "Latex Printing",
+          "LED Signage Installation",
+          "Installation",
+          "Billing",
+          "Delivery",
+        ],
+    };
+  },
+  beforeMount() {
+      this.getUsers();
+    },
+  methods: {
+   getUsers: function () {
+      //this.showSnackbar("Log in...", "teal");
+
+          google.script.run
+            .withSuccessHandler((users) => {
+              console.log('THESE ARE THE USERS ', users)
+              // anonymous function execute after successful return
+                  this.users = users;
+
+            })
+            .getUsers();
+
+    }
+  }
+};
+</script>

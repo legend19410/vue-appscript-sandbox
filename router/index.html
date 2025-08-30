@@ -1,0 +1,53 @@
+<script>
+  function middlewarePipeline(context, middleware, index) {
+    const nextMiddleware = middleware[index];
+    if (!nextMiddleware) {
+      return context.next;
+    }
+    return () => {
+      nextMiddleware({
+        ...context,
+        next: middlewarePipeline(context, middleware, index + 1),
+      });
+    };
+  }
+
+  function auth({ to, next, store }) {
+    const loginQuery = { path: "/", query: { redirect: to.fullPath } };
+    const isLoggedIn = store.getAuthenticationStatus;
+    if (!isLoggedIn) {
+      next(loginQuery);
+    } else {
+      next(); // Allow the user to proceed to the requested page
+    }
+  }
+
+  // 1. Define routes
+  const routes = [
+    { path: '/', component: LoginPage },
+    { path: '/dashboard', component: DashboardPage, meta: {middleware: [auth]}},
+    { path: '/customers', component: CustomerPage, meta: {middleware: [auth]} }
+  ];
+
+  // 2. Create router instance
+  window.router = VueRouter.createRouter({
+    history: VueRouter.createWebHashHistory(),
+    routes
+  });
+
+  window.router.beforeEach((to, from, next) => {
+    const middleware = to.meta.middleware;
+    const store = useUserStore();
+    const context = { to, from, next, store, router };
+  
+    if (!middleware) {
+      return next();
+    }
+  
+    middleware[0]({
+      ...context,
+      next: middlewarePipeline(context, middleware, 1),
+    });
+  });
+
+</script>

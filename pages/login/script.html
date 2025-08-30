@@ -1,0 +1,57 @@
+<script>
+const LoginPage = {
+  template: '#login-page',
+  setup(){
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    return { userStore, snackbarStore};
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  mounted() {
+    this.login()
+  },
+  methods: {
+    async login(){
+        let email = 'francismilton19410@gmail.com' //this.email.trim().toLowerCase();
+        let password = 'password1' //this.password.trim();
+
+        if (email && password) {
+          //this.submitting = true;
+          const body = {
+            email, 
+            password
+          }
+          // send request to server with the expectation to get { token } on success
+          const response = await apiCall('login', { body: body})
+            .then((response) => {
+
+              //update pinia store
+              this.userStore.login(response.data.user, response.data.accessToken, response.data.refreshToken)
+              //redirect to home dashboard
+              window.router.push({ path: "/dashboard" }).catch(() => {});
+
+              const firstName = response.data.user?.firstName
+              const lastName = response.data.user?.lastName
+              const fullName = `${firstName} ${lastName}`
+              //show welcome popup
+              this.snackbarStore.showSnackbar(`Welcome ${fullName}`, "teal");
+            })
+            .catch((error) => {
+                //show auth error
+                this.snackbarStore.showSnackbar(error?.message, "red");
+            });
+    
+
+        } else {
+          //show error
+          this.snackbarStore.showSnackbar("Please provide Email and password", "red");
+        }
+    }
+  }
+};
+</script>

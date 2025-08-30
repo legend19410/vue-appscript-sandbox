@@ -1,0 +1,5 @@
+<template v-for="header in headers.filter((header) => header.type==='number_currency')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+      {{value?.toLocaleString(prefs.Locale, { style: 'currency', currency:
+      prefs.Currency, })}}
+</template>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.0.5"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.4.8/vuetify-labs.min.js"
+    integrity="sha512-5xeIAXqNP/DWGkolQzdPAL042aA4Lb8SCMy/Ju+9yzvf9SzfsbzICQwYyMrhbN8pG8m0LWhMl9BISpIDs8RquQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/3.4.8/vuetify-labs.min.css"
+    integrity="sha512-VP/8WyNQxaDeiVsCGXh7nLWVPt64+rqoCugT7xhZLhx9F8fTJpjpiCqHqJlhmKAMgyRU8TiAAxJmmxz260R03w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/index.iife.min.js"></script>
+
+  <!-- Pinia 2.1.7 (last known working IIFE build) -->
+    <script src="https://cdn.jsdelivr.net/npm/pinia@2.1.7/dist/pinia.iife.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/pinia@3.0.3/dist/pinia.iife.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="https://unpkg.com/vue-router@4"></script>
+  <?!= include('style.html'); ?>
+
+</head>
+
+<body>
+  <!-- <?!= include('mixins/authMixin'); ?> -->
+  <?!= include('utilities.html'); ?> 
+
+  <div id="app"></div>
+
+  <?!= include('global.html'); ?>
+
+  <?!= include('app.html'); ?>
+              <!-- register components here -->
+
+  <?!= include('components/AppBar/temp.html'); ?>
+  <?!= include('components/AppBar/script.html'); ?>
+
+  <?!= include('components/NavDrawer/temp.html'); ?>
+  <?!= include('components/NavDrawer/script.html'); ?>
+
+  <?!= include('components/UserManagerTable/temp.html'); ?>
+  <?!= include('components/UserManagerTable/script.html'); ?>
+
+  <?!= include('components/DataTable/temp.html'); ?>
+  <?!= include('components/DataTable/script.html'); ?>
+
+  <?!= include('components/CustomerRequestsTable/temp.html'); ?>
+  <?!= include('components/CustomerRequestsTable/script.html'); ?>
+
+  <?!= include('components/CustomersTable/temp.html'); ?>
+  <?!= include('components/CustomersTable/script.html'); ?>
+
+   <?!= include('components/SecurityOverview/temp.html'); ?>
+  <?!= include('components/SecurityOverview/script.html'); ?>
+
+     <?!= include('components/CustomerOverview/temp.html'); ?>
+  <?!= include('components/CustomerOverview/script.html'); ?>
+  
+   
+
+              <!-- register pages here -->
+
+  <?!= include('pages/dashboard/temp.html'); ?>
+  <?!= include('pages/dashboard/script.html'); ?>
+
+  <?!= include('pages/login/temp.html'); ?>
+  <?!= include('pages/login/script.html'); ?>
+
+  <?!= include('pages/customers/temp.html'); ?>
+  <?!= include('pages/customers/script.html'); ?>
+            
+
+  <!-- register stores here -->
+
+  <?!= include('store/userStore.html'); ?>
+  <?!= include('store/customerStore.html'); ?>
+   <?!= include('store/utilityStore.html'); ?>
+   <?!= include('store/snackbarStore.html'); ?>
+
+     <!-- register router here -->
+
+  <?!= include('router/index'); ?>
+
+  <!-- create vue app here -->
+
+  <?!= include('script'); ?>
+
+        
+
+</body>
+
+</html>

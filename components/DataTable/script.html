@@ -1,0 +1,187 @@
+<script>
+ window.DataTable = {
+  template: '#data-table',
+  setup(){
+    // const headers = [
+    //       { title: 'Priority', key: 'Priority' },
+    //       { title: 'Tags', key: 'Tags' },
+    //       { title: 'Assigned To', key: 'assignedTo' },
+    //       { title: 'Customer', key: 'customer' },
+    //       { title: 'Description', key: 'description' },
+    //       { title: 'ID', key: 'id' },
+    //       { title: 'Job Category', key: 'jobCategory' },
+    //       { title: 'Notes', key: 'notes' },
+    //       { title: 'Stage', key: 'stage' },
+    //       { title: 'Task Created By', key: 'taskCreatedBy' },
+    //       { title: "", align: "start", key: "actions" },
+    // ]
+    // return {headers}
+  },
+  data() {
+    return {
+      headers : [],
+      dataTable: [],
+      appIsLoading: false,
+      dialog: false,
+      editedIndex: -1,
+      editedItem: {},
+      formTitle: 'Tile of My Form',
+      rules: {
+        required: (value) => !!value || "Required.",
+      },
+      handleAddNewBtn() {
+        // this.editedIndex = -1;
+        // this.editedItem = Object.assign({}, this.defaultItem);
+        // this.runBeforeDisplayingForm();
+        // this.dialog = true;
+      },
+ 
+      schema: [
+  {
+    key: 'name',
+    label: 'Full Name',
+    type: 'text',
+    required: true,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'email',
+    label: 'Email Address',
+    type: 'text',
+    required: true,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'bio',
+    label: 'Biography',
+    type: 'textarea',
+    required: false,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'role',
+    label: 'User Role',
+    type: 'select',
+    options: 'Admin,Manager,User',
+    required: true,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'status',
+    label: 'Account Status',
+    type: 'radio',
+    options: 'Active,Inactive,Suspended',
+    required: true,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'tags',
+    label: 'Tags',
+    type: 'tags',
+    options: 'New,VIP,Support,Onboarding',
+    required: false,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'birthday',
+    label: 'Birthday',
+    type: 'date',
+    required: false,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'login_time',
+    label: 'Login Time',
+    type: 'time',
+    required: false,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'website',
+    label: 'Website',
+    type: 'link',
+    required: false,
+    disabled: false,
+    formHidden: false
+  },
+  {
+    key: 'salary',
+    label: 'Monthly Salary',
+    type: 'number_currency',
+    required: true,
+    disabled: false,
+    min: 1000,
+    max: 100000,
+    formHidden: false
+  },
+  {
+    key: 'terms_accepted',
+    label: 'Accepted Terms?',
+    type: 'checkbox',
+    required: true,
+    disabled: false,
+    formHidden: false
+  }
+],
+      search: "",
+    };
+  },
+  beforeMount() {
+    this.getCustomers()
+  },
+  mounted() {
+   // this.getAllData()
+  },
+  methods: {
+    async getCustomers(){
+      const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMER_REQUESTS', {})
+      this.dataTable = response.data.data
+      this.headers = response.data.headers
+
+      console.log('customer requests response: ',response)
+      //this.navBarDropdownOptions = Array.isArray(response.data) ? response.data : [];
+    },
+    async getAllData(){
+      //const response = await apiCall('getData', {})
+     // console.log('data response: ',response)
+
+      google.script.run
+          .withSuccessHandler((res) => {
+              console.log('data response: ',res)
+              console.log('header keys: ',this.headers)
+
+              this.dataTable = res
+          })
+          .withFailureHandler((error) => {
+            console.log(error);
+          })
+          .getData();
+    },
+   editItem(item) {
+      this.editedIndex = this.dataTable.indexOf(item);
+
+      this.editedItem = Object.assign({}, item);
+      this.schema.forEach((fld) => {
+        if (fld.type === "select_option_source_multiple") {
+          this.editedItem[fld.key] = item[fld.key].split(",");
+        }
+        if (fld.type === "tags") {
+          this.editedItem[fld.key] = item[fld.key]
+            ? item[fld.key].split(",")
+            : null;
+        }
+      });
+      //this.runBeforeDisplayingForm();
+      this.dialog = true;
+    },
+  }
+};
+</script>

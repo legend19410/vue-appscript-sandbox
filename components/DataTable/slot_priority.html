@@ -1,0 +1,7 @@
+<template v-for="header in headers.filter((header) => header.key==='priority')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+      <div class="">
+        <v-chip :color="value === 'High' ? 'red' : value === 'Medium' ? 'orange' : 'green'" :text="value"
+          class="text-uppercase" label size="small"></v-chip>
+      </div>
+</template>

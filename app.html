@@ -1,0 +1,31 @@
+<template id="app-template">
+  <v-app>
+      <nav>
+        <router-link to="/">login</router-link> |
+        <router-link to="/customers">Cust Request</router-link> |
+        <router-link to="/dashboard">Dashboard</router-link>
+      </nav>
+      <router-view :key="$route.fullPath"></router-view>
+  </v-app>
+   
+  <v-snackbar v-model="snackbarStore.show" :color="snackbarStore.color" :timeout="snackbarStore.timeout"
+        :vertical="snackbarStore.vertical" :right="snackbarStore.right" :bottom="snackbarStore.bottom" multi-line elevation="24">
+        <strong>{{snackbarStore.text}}</strong>
+
+        <template v-slot:actions>
+            <v-btn color="white" variant="text" @click="snackbarStore.show = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
+    <v-dialog v-model="utilityStore.getLoadingStatus" persistent fullscreen hide-overlay>
+      <v-container class="fill-height d-flex justify-center align-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          size="64"
+        ></v-progress-circular>
+      </v-container>
+    </v-dialog>
+</template>
+

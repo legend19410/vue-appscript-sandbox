@@ -1,0 +1,71 @@
+<template id="app-bar-component">
+
+  <!-- Drawer toggle -->
+  <v-app-bar-nav-icon variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
+  
+  <!-- Home Button -->
+  <!-- <v-btn prepend-icon="mdi-home">
+    <template v-slot:prepend>
+      <v-icon color="white"></v-icon>
+    </template>
+  </v-btn> -->
+
+  <!-- Logo & Title -->
+  <v-img
+    src="https://i.pinimg.com/736x/da/2c/f0/da2cf0e7f25fe540887207c640403434.jpg"
+    alt="Furniture Shop Logo"
+    max-height="36"
+    max-width="36"
+    cover
+    class="rounded-img"
+  ></v-img>
+  <v-toolbar-title class="logo-text font-weight-bold">Furni-Craft</v-toolbar-title>
+
+
+  <!-- <v-spacer></v-spacer> -->
+
+  <!-- User Avatar & Name -->
+  <v-avatar size="36" class="mr-2">
+    <img 
+      src="https://randomuser.me/api/portraits/men/32.jpg" 
+      alt="User Avatar" 
+      style="width: 100%; height: 100%; object-fit: cover;"
+    >
+  </v-avatar>
+  <span class="mr-4" style="color:white;">{{userStore.getUser?.firstName}} {{userStore.getUser?.lastName}}</span>
+
+  <!-- Menu Button with Dropdown -->
+  <v-menu offset-y>
+    <template v-slot:activator="{ props }">
+      <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
+    </template>
+    <v-list>
+      <v-list-item>
+        <v-list-item-title>
+          <v-icon start>mdi-account</v-icon> Profile
+        </v-list-item-title>
+      </v-list-item>
+
+      <v-list-item>
+        <v-list-item-title>
+          <v-icon start>mdi-settings</v-icon> Settings
+        </v-list-item-title>
+      </v-list-item>
+
+      <v-list-item>
+        <v-list-item-title>
+          <v-icon start>mdi-login</v-icon> Login
+        </v-list-item-title>
+      </v-list-item>
+
+      <v-list-item>
+        <v-list-item-title>
+          <v-icon start>mdi-logout</v-icon> Logout
+        </v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+</template>
+
+
+

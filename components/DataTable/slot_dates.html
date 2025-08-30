@@ -1,0 +1,20 @@
+<template v-for="header in headers.filter((header) => header.type==='date')"
+      v-slot:[`item.${header.key}`]="{ value, item }">
+      <template v-if="header.key === 'delivery_date'">
+        <div class="text-center">
+          <template v-if="value !== ''">
+            <div :class="{ 'text-red': new Date(value) < new Date() && item.stage !== 'Completed' }">
+              {{ new Date(value).toLocaleDateString("en-GB") }}
+              <v-chip v-if="new Date(value) < new Date() && item.stage !== 'Completed'" color="red" size="small"
+                class="ml-2">Overdue</v-chip>
+            </div>
+          </template>
+          <template v-else>
+            {{ value }}
+          </template>
+        </div>
+      </template>
+      <template v-else>
+        {{ value !==''? new Date(value).toLocaleDateString("en-GB") : value }}
+      </template>
+</template>

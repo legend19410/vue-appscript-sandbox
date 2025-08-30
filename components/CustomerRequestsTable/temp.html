@@ -1,0 +1,20 @@
+<template id="customer-requests-table">
+  <v-data-table
+    :headers="headers"
+    :items="dataTable"
+    :search="search"
+    fixed-header
+    style="font-size: 14px; height: 60vh"
+    :loading="appIsLoading"
+    loading-text="Loading... Please wait"
+    items-per-page="20"
+  >
+
+      <?!= include('components/DataTable/slot_top'); ?>
+      <?!= include('components/DataTable/slot_actions'); ?>
+      <?!= include('components/DataTable/slot_priority'); ?>
+      <?!= include('components/DataTable/slot_status'); ?>
+
+
+  </v-data-table>
+</template>

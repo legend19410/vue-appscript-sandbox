@@ -1,0 +1,21 @@
+<script>
+ window.MyAppBar = {
+  template: '#app-bar-component',
+  props: ['drawer'],
+  emits: ['toggle-drawer'], // Add this line
+  setup() {
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    return { userStore, snackbarStore};
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+    toggleDrawer() {
+      this.$emit('toggle-drawer')
+    }
+  }
+};
+</script>

@@ -1,0 +1,245 @@
+<script>
+ window.CustomersTable = {
+  template: '#customers-table',
+  setup() {
+    const utilityStore = useUtilityStore();
+    return { utilityStore};
+  },
+  data() {
+    return {
+      formTitle: 'Edit Customer',
+      headers : [],
+      dataTable: [],
+      appIsLoading: false,
+      showNewItemBtn: false,
+      prefs : {
+        Locale: "en-US",
+        Currency: "USD"
+      },
+      dialog: false,
+      viewDialog: false,
+      editedIndex: -1,
+      editedItem : {
+          firstName: "Alice",
+          lastName: "Johnson",
+          email: "alice.johnson@example.com",
+          contact: '11879938377',
+          status: "active",
+          gender: "female",   
+          emailVerified: "yes",          
+          emailVerifiedAt: "2025-03-05",          
+          createdDate: "2025-03-05",     
+          updatedDate: "2025-03-05",    
+          history: JSON.stringify([
+            "Created on 2023-01-05",
+            "Promoted to Manager on 2023-06-20",
+            "Salary updated on 2024-01-15"
+          ])
+      },
+      indexedDD : {
+        Roles: {
+          Admin: { description: "System administrator with full access" },
+          Manager: { description: "Manages teams and projects" },
+          User: { description: "Regular user with limited permissions" }
+        },
+        Statuses: {
+          Active: { description: "Account is active" },
+          Inactive: { description: "Account is inactive" },
+          Suspended: { description: "Account has been suspended" }
+        },
+        Tags: {
+          New: { description: "Recently joined" },
+          VIP: { description: "High-value customer" },
+          Support: { description: "Needs dedicated support" },
+          Onboarding: { description: "Currently onboarding" }
+        }
+      },
+      rules: {
+        required: (value) => !!value || "Required.",
+      },
+      schema: [
+            {
+              key: 'firstName',
+              label: 'First Name',
+              type: 'text',
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'lastName',
+              label: 'Last Name',
+              type: 'text',
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'email',
+              label: 'Email',
+              type: 'email',
+              required: false,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'contact',
+              label: 'Contact',
+              type: 'text',
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'select',
+              options: ['Admin','Manager','User'],
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'gender',
+              label: 'Gender',
+              type: 'select',
+              options: ['Admin','Manager','User'],
+              required: false,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'emailVerified',
+              label: 'Email Verified',
+              type: 'text',
+              required: false,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'emailVerifiedAt',
+              label: 'Email Verified At',
+              type: 'date',
+              required: false,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'createdDate',
+              label: 'Created Date',
+              type: 'date',
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            },
+            {
+              key: 'updateDate',
+              label: 'Updated Date',
+              type: 'date',
+              required: true,
+              disabled: false,
+              formHidden: false,
+              col_size:{
+                cols: 12,
+                md: 4,
+                sm: 6
+              }
+            }
+      ],
+      search: "",
+    }
+  },
+  beforeMount() {
+    this.getCustomers()
+  },
+  methods: {
+    async getCustomers(){
+      this.utilityStore.showLoadingSpinner()
+      const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMERS', {})
+      this.dataTable = response.data.data
+      this.headers = response.data.headers
+      this.utilityStore.hideLoadingSpinner()
+      console.log('customer requests response: ',response)
+    },
+    async getCustomerRequestById(id){
+      const body = {
+        customerRequestId: id
+      }
+      this.utilityStore.showLoadingSpinner()
+
+      const response = await apiCall('CONTROLLER_GET_CUSTOMER_REQUESTS_BY_ID', {body})
+      console.log('customer request response: ',response)
+      this.utilityStore.hideLoadingSpinner()
+
+      return response.data
+
+    },
+   async editItem(item) {
+    const customerRequest = await this.getCustomerRequestById(item.id)
+    console.log('ITEM TO BEEEE EDITED', item)
+      //this.editedIndex = this.dataTable.indexOf(item);
+      this.editedItem = customerRequest//Object.assign({}, item);
+    console.log(' EDITED item', this.editedItem)
+
+      this.dialog = true;
+    },
+    handleAddNewBtn() {
+    
+    },
+    async viewItem(item){
+      const customerRequest = await this.getCustomerRequestById(item.id)
+      console.log('ITEM TO BEEEE EDITED', item)
+        //this.editedIndex = this.dataTable.indexOf(item);
+        this.editedItem = customerRequest//Object.assign({}, item);
+      console.log(' EDITED item', this.editedItem)
+
+      this.viewDialog = true;
+    }
+  }
+};
+</script>

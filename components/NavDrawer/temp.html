@@ -1,0 +1,76 @@
+<template id="nav-drawer-component">
+  <v-navigation-drawer 
+    width="25vw"
+    v-model="internalDrawer"
+    :location="$vuetify.display.mobile ? 'bottom' : undefined"
+    temporary
+    elevation="3"
+    color="grey-lighten-5"
+    style="display: flex; flex-direction: column;"
+  >
+    <v-list density="comfortable" nav>
+      <!-- Simple Item: Dashboard -->
+      <v-list-item 
+        prepend-icon="mdi-home" 
+        title="Dashboard" 
+        @click="goTo('dashboard', '')" 
+      ></v-list-item>
+
+      <!-- Loop through navBarDropdownOptions -->
+      <v-list-group
+        v-for="(group, index) in navBarDropdownOptions"
+        :key="index"
+        :prepend-icon="group.icon"
+        class="nested-group"
+      >
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props" :title="group.groupTitle" class="font-weight-bold"></v-list-item>
+        </template>
+
+        <!-- Loop through each list item in the group -->
+        <v-list-item
+          v-for="(item, subIndex) in group.listItem"
+          :key="subIndex"
+          :title="item.title"
+          @click="goTo(group.path, item.path)"
+          class="nested-item"
+        ></v-list-item>
+      </v-list-group>
+
+      <!-- Simple Item: Documentation -->
+      <v-list-item 
+        prepend-icon="mdi-file-document" 
+        title="Documentation" 
+        @click="goTo('home')" 
+      ></v-list-item>
+    </v-list>
+
+    <!-- Footer Actions -->
+    <template v-slot:append>
+      <v-divider></v-divider>
+      <div class="pa-2" v-if="true">
+        <b>{{userStore.getUser?.firstName}} {{userStore.getUser?.lastName}}</b> <span>({{userStore.getUser?.role}})</span>
+        <v-list-item 
+          prepend-icon="mdi-account" 
+          title="Edit Profile"
+          @click="goToSession('userInfo')"
+        ></v-list-item>
+      </div>
+      <div class="pa-2">
+        <v-btn prepend-icon="mdi-logout" color="yellow" @click="logout" block>
+          <template v-slot:prepend>
+            <v-icon color="red"></v-icon>
+          </template>
+          Logout
+        </v-btn>
+
+        <v-btn class="my-1" prepend-icon="mdi-account-circle" color="yellow" block>
+          <template v-slot:prepend>
+            <v-icon color="success"></v-icon>
+          </template>
+          Change User
+        </v-btn>
+      </div>
+    </template>
+  </v-navigation-drawer>
+</template>

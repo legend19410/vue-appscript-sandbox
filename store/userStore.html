@@ -1,0 +1,52 @@
+<script>
+
+const useUserStore = defineStore('user', {
+  state: () => ({
+    user: null,
+    twoStepVerificationId: null,
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+    isLoading: false
+  }),
+
+  getters: {
+    getuserName: (state) => state.user?.name || 'Guest',
+    getUser: (state) => state.user,
+    getAuthenticationStatus: (state) => state.isAuthenticated,
+    getLoadingStatus: (state) => state.isLoading,
+    getTwoStepVerificationId: (state) => state.twoStepVerificationId,
+  },
+
+  actions: {
+    login(user, accessToken, refreshToken) {
+      this.isAuthenticated = true;
+
+      //store user & token in memory
+      this.user = user;
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
+
+      //store user & token in local storage
+      localStorage.setItem("userInfo", JSON.stringify(user))
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+    },
+
+    logout(){
+      this.isAuthenticated = false;
+
+      //remove user & token from memory
+      this.user = null;
+      this.accessToken = null;
+      this.refreshToken = null;
+
+      //remove user & token from local storage
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
+  }
+});
+
+</script>

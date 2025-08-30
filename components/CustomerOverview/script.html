@@ -1,0 +1,45 @@
+<script>
+ window.CustomerOverview = {
+  template: '#customer-overview-component',
+  props:['requests', 'headers', 'summary'],
+  setup() {
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    return { userStore, snackbarStore};
+  },
+  computed: {
+    dashboardStats() {
+      return [
+        { title: 'Total Requests', value: this.summary?.totalRequests, color: 'indigo', icon: 'mdi-clipboard-list' },
+        { title: 'Pending Review', value: this.summary?.pendingReview, color: 'deep-orange', icon: 'mdi-timer-sand' },
+        { title: 'Under Construction', value: this.summary?.underConstruction, color: 'green', icon: 'mdi-hammer-wrench' },
+        { title: 'Awaiting Delivery', value: this.summary?.awaitingDelivery, color: 'blue', icon: 'mdi-truck-delivery' },
+        { title: 'Purchased', value: this.summary?.purchased, color: 'teal', icon: 'mdi-check-bold' },
+        { title: 'Rented', value: this.summary?.rented, color: 'red', icon: 'mdi-backup-restore' },
+      ]
+    }
+  },
+  mounted(){
+  },
+  data() {
+    return {
+      search: '',
+    upcomingDeliveries: [
+      { customer: 'Sarah Connor', date: '2025-08-15', address: '123 Elm Street, Kingston', item: 'Sofa Set' },
+      { customer: 'Tony Stark', date: '2025-08-17', address: '108 Malibu Drive, Kingston', item: 'Dining Table' },
+      { customer: 'Bruce Wayne', date: '2025-08-18', address: 'Wayne Manor, Kingston', item: 'Office Chair' },
+      { customer: 'John Wick', date: '2025-08-17', address: '77 Continental Rd, Kingston', item: 'Bed Frame' },
+      { customer: 'Bruce Banner', date: '2025-08-17', address: '9 Gamma Street, Kingston', item: 'Wardrobe' },
+    ]
+    }
+  },
+  methods: {
+    viewAllRequests(){
+      window.router.push({ 
+        path: `/customers` ,
+        query: { subView: 'customer-requests' }
+      }).catch(() => {});
+    }
+  }
+};
+</script>

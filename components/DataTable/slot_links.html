@@ -1,0 +1,6 @@
+<template v-for="header in headers.filter((header) => header.type==='link')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+      <div class="text-center">
+        <a :href="value" target="_blank">Open</a>
+      </div>
+</template>

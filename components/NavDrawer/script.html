@@ -1,0 +1,51 @@
+<script>
+ window.MyNavDrawer = {
+  template: '#nav-drawer-component',
+  props: {
+    navBarDropdownOptions: {
+        type: Array,
+        default: () => []
+    },
+     modelValue: {
+      type: Boolean,
+      required: true
+    }
+  },
+  emits: ["update:modelValue"],
+   setup(){
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    return { userStore, snackbarStore};
+  },
+  computed: {
+    internalDrawer: {
+      get() {
+        return this.modelValue
+      },
+      set(value) {
+        this.$emit("update:modelValue", value) // notify parent
+      }
+    }
+  },
+  data() {
+    return {
+      
+    };
+  },
+  methods: {
+    logout(){
+      this.userStore.logout()
+      window.router.push({ path: "/" }).catch(() => {});
+    },
+    goTo(pagePath, subPath){
+      console.log('GO TO PATHS: ', pagePath)
+      console.log('GO TO subPATHS: ', subPath)
+
+      window.router.push({ 
+        path: `/${pagePath}` ,
+        query: { subView: subPath }
+      }).catch(() => {});
+    }
+  }
+};
+</script>

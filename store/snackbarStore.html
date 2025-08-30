@@ -1,0 +1,24 @@
+<script>
+// Define a Pinia store
+const useSnackbarStore = defineStore('snackbar', {
+  state: () => ({
+    text: "",
+    show: false,
+    timeout: 3000,
+    color: "success",
+    multiline: true,
+    vertical: true,
+    right: true,
+    bottom: true,
+  }),
+  actions: {
+    showSnackbar(text, color, timeout = 3000) {
+        this.text = text;
+        this.color = color;
+        this.show = true;
+        this.timeout = timeout;
+    },
+  }
+});
+
+</script>

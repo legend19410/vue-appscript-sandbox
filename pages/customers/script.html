@@ -1,0 +1,55 @@
+<script>
+const CustomerPage = {
+  template: '#customers-page',
+  components: { CustomerOverview, CustomerRequestsTable },
+  setup(){
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    const utilityStore = useUtilityStore();
+
+    const route = VueRouter.useRoute()
+    const activeView = route.query.subView
+
+    return { userStore, snackbarStore, utilityStore, activeView};
+  },
+  beforeMount() {
+    this.getDropdown()
+    this.switchView(this.activeView) 
+  },
+  data() {
+    return {
+      activeComponent: markRaw(CustomersTable),
+      customerViewsMap: {
+        'all-customers': markRaw(CustomersTable),
+        'customer-requests': markRaw(CustomerRequestsTable)
+      }
+      
+    }
+  },
+  methods: {
+    async getDropdown(){
+      // check if nav options is loaded in store
+      const navOptions = this.utilityStore.getNavBarDropdownOptions
+      if(navOptions.length === 0){
+        //get options from api
+        const response = await apiCall('CONTROLLER_GET_NAV_DROPDOWN_OPTIONS', {})
+        this.utilityStore.updateNavBarDropdownOptions(response.data)
+      }
+    },
+    logout(){
+      this.userStore.logout()
+      window.router.push({ path: "/" }).catch(() => {});
+    },
+    switchView(componentViewName) {
+      console.log('SWITCHING COMP:', componentViewName)
+      if (this.customerViewsMap[componentViewName]) {
+        this.activeComponent = this.customerViewsMap[componentViewName]
+      console.log('ACTIVE COMP:', this.activeComponent)
+        
+      } else {
+        console.warn(`Component "${componentViewName}" not found in customerViewsMap`)
+      }
+    }
+  }
+};
+</script>

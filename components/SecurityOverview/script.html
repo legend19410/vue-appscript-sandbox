@@ -1,0 +1,57 @@
+<script>
+ window.SecurityOverview = {
+  template: '#security-overview-component',
+  setup() {
+    const userStore = useUserStore();
+    const snackbarStore = useSnackbarStore();
+    return { userStore, snackbarStore};
+  },
+   mounted() {
+  // Login Activity Chart
+  new Chart(document.getElementById('loginActivityChart'), {
+    type: 'line',
+    data: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        label: 'Logins',
+        data: [12, 19, 8, 15, 22, 30, 18],
+        borderColor: '#1976d2',
+        backgroundColor: 'rgba(25, 118, 210, 0.2)',
+        fill: true
+      }]
+    }
+  });
+
+  // Role Distribution Chart
+  new Chart(document.getElementById('roleDistributionChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Admin', 'Editor', 'Viewer', 'Auditor', 'Guest'],
+      datasets: [{
+        data: [5, 10, 40, 3, 70],
+        backgroundColor: ['#1976d2', '#43a047', '#fbc02d', '#e53935', '#8e24aa']
+      }]
+    }
+  });
+},
+
+  data() {
+    return {
+       stats: {
+        totalUsers: 128,
+        activeRoles: 5,
+        failedLogins: 14,
+        permissions: 32
+      },
+      recentEvents: [
+        { type: 'alert', icon: 'mdi-lock-alert', message: '5 failed logins from IP 192.168.1.10', time: '2 mins ago' },
+        { type: 'info', icon: 'mdi-account-check', message: 'New user "jdoe" created', time: '15 mins ago' },
+        { type: 'info', icon: 'mdi-shield-check', message: 'Role "Admin" updated permissions', time: '30 mins ago' }
+      ],
+    };
+  },
+  methods: {
+
+  }
+};
+</script>

@@ -1,0 +1,30 @@
+<script>
+
+const useCustomerStore = defineStore('customer', {
+  state: () => ({
+    customerRequests: [],
+    customerRequestHeaders: [],
+    customerRequestSummary: {}
+  }),
+
+  getters: {
+    getCustomerRequests: (state) => state.customerRequests,
+    getCustomerRequestHeaders: (state) => state.customerRequestHeaders,
+    getCustomerRequestSummary: (state) => state.customerRequestSummary
+  },
+
+  actions: {
+    setCustomerRequests(customerRequests) {
+      this.customerRequests = customerRequests
+    },
+    setCustomerRequestHeaders(customerRequestHeaders) {
+      this.customerRequestHeaders = customerRequestHeaders
+    },
+     setCustomerRequestSummary(customerRequestSummary) {
+      this.customerRequestSummary = customerRequestSummary
+    },
+
+  }
+});
+
+</script>

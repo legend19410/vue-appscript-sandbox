@@ -1,0 +1,7 @@
+<template v-slot:item.Customer="{ item,value }">
+      <div class="text-left">
+        <!-- {{indexedDD?indexedDD['Customers'][value]['Name']:value}} -->
+        {{indexedDD?indexedDD['Customers'][value]?.Name:value}}
+
+      </div>
+</template>

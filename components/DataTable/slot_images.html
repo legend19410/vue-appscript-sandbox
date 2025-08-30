@@ -1,0 +1,8 @@
+<template v-for="header in headers.filter((header) => header.type==='image'||header.type==='image_url')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+      <div class="text-center">
+        <!-- <a :href="value" target="_blank">{{schema.find(o=>o.key==header?.key)?.link_alias}}</a> -->
+        <a :href="value" target="_blank">
+          <v-avatar :image="value" size="41"></v-avatar></a>
+      </div>
+</template>

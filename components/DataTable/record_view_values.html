@@ -1,0 +1,23 @@
+  <template v-if="fld.type === 'date'">
+    {{new Date(editedItem[fld.key]).toLocaleDateString(prefs.Locale)}}
+  </template>
+  <template v-else-if="fld.type === 'time'">
+    {{editedItem[fld.key]}}
+  </template>
+  <template v-else-if="fld.type === 'link'">
+    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+  </template>
+  <template v-else-if="fld.type === 'file'">
+    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+  </template>
+  <template v-else-if="fld.type === 'image'">
+    <a :href="editedItem[fld.key]" target="_blank">
+      <v-avatar :image="editedItem[fld.key]" size="64"></v-avatar></a>
+  </template>
+  <template v-else-if="fld.type === 'number_currency'">
+    {{editedItem[fld.key]?.toLocaleString(prefs.Locale, { style: 'currency', currency: prefs.Currency, })}}
+  </template>
+  <template v-else-if="fld.type === 'file'">
+    <a :href="editedItem[fld.key]" target="_blank">Open</a>
+  </template>
+  <template v-else> {{editedItem[fld.key]}} </template>               

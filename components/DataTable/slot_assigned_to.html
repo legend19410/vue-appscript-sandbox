@@ -1,0 +1,11 @@
+<template v-slot:item.assigned_to="{ item,value }">
+      <div class="text-center">
+        <v-chip-group>
+          <v-chip v-for="assignee in value ? value.split(',') : []" :key="assignee" color="primary" label size="small">
+            <!-- {{this.users?this.users[assignee]['name']:assignee}} -->
+            {{this.users?this.users[assignee]?.name:assignee}}
+
+          </v-chip>
+        </v-chip-group>
+      </div>
+  </template>
