@@ -2,6 +2,10 @@ const CONFIG = {
   CACHE:{
     PERMISSIONS_TTL: 21600
   },
+  DROPDOWNS:{
+    SHEET_ID: '1hPLGcnapm26YJbYa3vVvkB3_3YEnjxzWkHPO04s2oyU',
+    SHEET_NAME: 'Dropdowns'
+  },
   USERS:{
     SHEET_ID: '1hPLGcnapm26YJbYa3vVvkB3_3YEnjxzWkHPO04s2oyU',
     SHEET_NAME: 'Users',

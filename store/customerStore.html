@@ -14,16 +14,62 @@ const useCustomerStore = defineStore('customer', {
   },
 
   actions: {
+    async fetchCustomerRequestsIfEmpty() {
+      if (this.customerRequests.length) return
+
+      const utilityStore = useUtilityStore()
+      const snackbarStore = useSnackbarStore()
+
+      try {
+        utilityStore.showLoadingSpinner()
+
+        const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMER_REQUESTS', {})
+
+        this.setCustomerRequests(response.data.data)
+        this.setCustomerRequestHeaders(response.data.headers)
+        this.setCustomerRequestSummary(response.data.summary)
+
+        logger.log('Customer Requests successfully fetched: ', response)
+      } catch (error) {
+        logger.error(error)
+        snackbarStore.showSnackbar(error?.message, "red")
+      } finally {
+        utilityStore.hideLoadingSpinner()
+      }
+    },
+
+    async fetchFreshCustomerRequests() {
+
+      const utilityStore = useUtilityStore()
+      const snackbarStore = useSnackbarStore()
+
+      try {
+        utilityStore.showLoadingSpinner()
+
+        const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMER_REQUESTS', {})
+
+        this.setCustomerRequests(response.data.data)
+        this.setCustomerRequestHeaders(response.data.headers)
+        this.setCustomerRequestSummary(response.data.summary)
+
+        logger.log('Customer Requests successfully fetched: ', response)
+      } catch (error) {
+        logger.error(error)
+        snackbarStore.showSnackbar(error?.message, "red")
+      } finally {
+        utilityStore.hideLoadingSpinner()
+      }
+    },
+
     setCustomerRequests(customerRequests) {
       this.customerRequests = customerRequests
     },
     setCustomerRequestHeaders(customerRequestHeaders) {
       this.customerRequestHeaders = customerRequestHeaders
     },
-     setCustomerRequestSummary(customerRequestSummary) {
+    setCustomerRequestSummary(customerRequestSummary) {
       this.customerRequestSummary = customerRequestSummary
-    },
-
+    }
   }
 });
 

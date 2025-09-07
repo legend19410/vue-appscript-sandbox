@@ -37,9 +37,14 @@ const CustomerService = {
       'customerContact',
       'customerEmail',
       'assignedTo',
+      'cost',
+      'requestType',
       'stage',
       'deliveryDate',
       'priority',
+      'createdDate',
+      'updatedDate',
+      'description'
 
     ]
     const customerRequests = customerRequestsRepository.find(includedHeaders)
@@ -109,11 +114,18 @@ const CustomerService = {
       underConstruction
     }
 
+  },
+
+  updateCustomerRequest(id, data){
+    const customerRequestsRepository = new SheetORM(CONFIG.CUSTOMER_REQUESTS.SHEET_ID, CONFIG.CUSTOMER_REQUESTS.SHEET_NAME, CONFIG.CUSTOMER_REQUESTS.DEFAULT_EXCLUDES)
+
+    customerRequestsRepository.updateById(id, data);
   }
  
 }
 
 function test788(){
-  const res = CustomerService.getCustomerRequestSummary()
+												
+  const res = CustomerService.updateCustomerRequest(13, {customerName: 'James Parker', requestType: 'Rental', cost: 7000, updatedDate: new Date().toISOString()})
   console.log(res)
 }

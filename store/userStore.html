@@ -7,7 +7,8 @@ const useUserStore = defineStore('user', {
     accessToken: null,
     refreshToken: null,
     isAuthenticated: false,
-    isLoading: false
+    isLoading: false,
+    allUsers: []
   }),
 
   getters: {
@@ -16,9 +17,32 @@ const useUserStore = defineStore('user', {
     getAuthenticationStatus: (state) => state.isAuthenticated,
     getLoadingStatus: (state) => state.isLoading,
     getTwoStepVerificationId: (state) => state.twoStepVerificationId,
+    getAllUsers: (state) => state.allUsers
   },
 
   actions: {
+    async fetchUsersIfEmpty() {
+      if (this.allUsers.length) return
+
+      const utilityStore = useUtilityStore()
+      const snackbarStore = useSnackbarStore()
+
+      try {
+        utilityStore.showLoadingSpinner()
+
+        const response = await apiCall('CONTROLLER_GET_ALL_USERS', {})
+
+        this.allUsers = response.data
+   
+        logger.log('Users successfully fetched: ', response)
+      } catch (error) {
+        logger.error(error)
+        snackbarStore.showSnackbar(error?.message, "red")
+      } finally {
+        utilityStore.hideLoadingSpinner()
+      }
+    },
+
     login(user, accessToken, refreshToken) {
       this.isAuthenticated = true;
 

@@ -5,15 +5,16 @@ const useUtilityStore = defineStore('utility', {
   state: () => ({
     loading: false,
     drawer: false,
-    navBarDropdownOptions: []
+    dropdownOptions: {}
   }),
+
   getters: {
     getDrawer: (state) => state.drawer,
-    getNavBarDropdownOptions: (state) => state.navBarDropdownOptions,
+    getNavBarDropdownOptions: (state) => state.dropdownOptions?.navigationOptions?.navBarDropdownOptions ?? [],
+    getCustomerRequestsDropdownOptions: (state) => state.dropdownOptions?.customerRequests ?? {},
     getLoadingStatus: (state) => state.loading
-
-
   },
+
   actions: {
     toggleDrawer() {
       this.drawer = !this.drawer
@@ -24,8 +25,25 @@ const useUtilityStore = defineStore('utility', {
     hideNavDrawer(){
       this.drawer = false;
     },
-    updateNavBarDropdownOptions(options){
-      this.navBarDropdownOptions = options
+    async fetchDropdownOptionsIfEmpty() {
+
+      if (Object.keys(this.dropdownOptions).length !== 0) return
+
+      const snackbarStore = useSnackbarStore()
+
+      try {
+        const response = await apiCall('CONTROLLER_GET_DROPDOWN_OPTIONS', {})
+        logger.log('Dropdown options successfully fetched: ', response)
+
+        this.updateDropdownOptions(response.data)
+      } catch (error) {
+        logger.error(error)
+        snackbarStore.showSnackbar(error?.message, 'red')
+      }
+    },
+
+    updateDropdownOptions(options){
+      this.dropdownOptions = options
     },
     toggleLoading(){
       this.loading = !this.loading

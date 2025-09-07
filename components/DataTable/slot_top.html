@@ -41,7 +41,7 @@
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
 
-            <v-card-text>
+            <v-form ref="form" >
               <v-container>
                 <v-row>
                   <v-col 
@@ -51,43 +51,43 @@
                     :md="fld.col_size.md"
                   >
                     <template v-if="fld.type === 'text'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.rules" :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'email'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'formula'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []" disabled />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.rules"  disabled />
                     </template>
 
                     <template v-if="fld.type === 'textarea'">
-                      <v-textarea variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-textarea variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'select' || fld.type === 'select_inline_editable'">
-                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'select_option_source'">
-                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :item-title="fld.optionSource.label" :item-value="fld.optionSource.key" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :item-title="fld.optionSource.label" :item-value="fld.optionSource.key" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'select_option_source_multiple'">
-                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :item-title="fld.optionSource.label" :item-value="fld.optionSource.key" item-disabled="disabled" multiple chips :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-select variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" :items="fld.options" :item-title="fld.optionSource.label" :item-value="fld.optionSource.key" item-disabled="disabled" multiple chips :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'checkbox'">
-                      <v-checkbox :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []" />
+                      <v-checkbox :label="fld.label" v-model="editedItem[fld.key]" :rules="fld.rules"  />
                     </template>
 
                     <template v-if="fld.type === 'tags'">
-                      <v-combobox :label="fld.label" :items="fld.options" v-model="editedItem[fld.key]" chips multiple :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-combobox :label="fld.label" :items="fld.options" v-model="editedItem[fld.key]" chips multiple :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'radio'">
-                      <v-radio-group inline v-model="editedItem[fld.key]" :rules="fld.required ? [rules.required] : []">
+                      <v-radio-group inline v-model="editedItem[fld.key]" :rules="fld.rules" >
                         <template v-slot:label>
                           <div>{{ fld.label }}</div>
                         </template>
@@ -96,29 +96,29 @@
                     </template>
 
                     <template v-if="fld.type === 'date'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="date" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="date" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'time'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="time" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="time" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
 
                     <template v-if="fld.type === 'link'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="text" :rules="fld.required ? [rules.required] : []" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="text" :rules="fld.rules"  />
                     </template>
 
                     <template v-if="fld.type === 'number' || fld.type === 'number_currency'">
-                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="number" :min="fld.min" :max="fld.max" :rules="fld.required ? [rules.required] : []" :disabled="fld.disabled || false" />
+                      <v-text-field variant="outlined" :label="fld.label" v-model="editedItem[fld.key]" type="number" :min="fld.min" :max="fld.max" :rules="fld.rules"  :disabled="fld.disabled || false" />
                     </template>
                   </v-col>
                 </v-row>
               </v-container>
-            </v-card-text>
+            </v-form>
 
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="save" :disabled="saving">Save</v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

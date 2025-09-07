@@ -122,10 +122,12 @@ class SheetORM {
     if (!row) throw new Error('Record not found');
 
     const rowIndex = row._row + 1;
-    this._headers.forEach((header, i) => {
-      const value = newData[header] !== undefined ? newData[header] : row[header];
-      this._sheet.getRange(rowIndex, i + 1).setValue(value);
-    });
+    const updatedRow = this._headers.map((header) =>
+      newData[header] !== undefined ? newData[header] : row[header]
+    );
+
+    this._sheet.getRange(rowIndex, 1, 1, this._headers.length).setValues([updatedRow]);
+    return `Record ${id} item updated successfully.`
   }
 
   deleteById(id) {

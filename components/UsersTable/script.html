@@ -1,11 +1,12 @@
 <script>
- window.CustomerRequestsTable = {
-  template: '#customer-requests-table',
+ window.UsersTable = {
+  template: '#users-table',
   setup() {
     const utilityStore = useUtilityStore();
     const customerStore = useCustomerStore();
+    const userStore = useUserStore();
     const snackbarStore = useSnackbarStore();
-    return { utilityStore, customerStore, snackbarStore};
+    return {userStore, utilityStore, customerStore, snackbarStore};
   },
   data() {
     return {
@@ -20,24 +21,6 @@
       viewDialog: false,
       editedIndex: -1,
       editedItem: {},
-      // editedItem : {
-      //     customerName: "Alice Johnson",
-      //     customerEmail: "alice.johnson@example.com",
-      //     customerContact: '11879938377',
-      //     requestType: "Rental",
-      //     stage: "Delivered",             
-      //     cost: "1000000",          
-      //     assignedTo: "francis@milton.com",    
-      //     deliveryDate: "1988-03-14T00:00:00Z",  // ISO date
-      //     createdDate: "1988-03-14T00:00:00Z",     
-      //     updatedDate: "1988-03-14T00:00:00Z",    // link
-      //     description: "A sleek oak writing desk with smooth tapered legs, a matte finish, and two concealed drawers, blending modern minimalism with timeless craftsmanship, perfect for home offices or quiet reading corners.",                
-      //     history: JSON.stringify([
-      //       "Created on 2023-01-05",
-      //       "Promoted to Manager on 2023-06-20",
-      //       "Salary updated on 2024-01-15"
-      //     ])
-      // },
       indexedDD : {
         Roles: {
           Admin: { description: "System administrator with full access" },
@@ -235,6 +218,7 @@
   },
   beforeMount() {
     this.customerStore.fetchCustomerRequestsIfEmpty()
+    this.userStore.fetchUsersIfEmpty()
   },
   computed: {   
     tableData() {

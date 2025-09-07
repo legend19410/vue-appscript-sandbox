@@ -8,10 +8,6 @@ const DashboardPage = {
     const utilityStore = useUtilityStore();
     return { userStore, snackbarStore, customerStore, utilityStore};
   },
-  data() {
-    return {
-    }
-  },
  computed: {   
     customerRequests() {
       return this.customerStore.getCustomerRequests.map(custR => ({
@@ -27,46 +23,11 @@ const DashboardPage = {
     }
   },
   beforeMount() {
-     this.getDropdown()
-     this.getCustomerRequests()
-  },
-  mounted(){
+    //check if dropdown data is already loaded 
+    this.customerStore.fetchCustomerRequestsIfEmpty()
+    this.utilityStore.fetchDropdownOptionsIfEmpty()
   },
   methods: {
-    async getCustomerRequests(){
-      this.utilityStore.showLoadingSpinner()
-      const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMER_REQUESTS', {})
-        .then((response)=>{
-          logger.log('Customer Requests successfully fetched: ', response)
-          this.customerStore.setCustomerRequests(response.data.data)
-          this.customerStore.setCustomerRequestHeaders(response.data.headers)
-          this.customerStore.setCustomerRequestSummary(response.data.summary)
-          this.utilityStore.hideLoadingSpinner()
-        }).catch((error) => {
-          this.utilityStore.hideLoadingSpinner()
-          logger.error(error)
-          this.snackbarStore.showSnackbar(error?.message, "red");
-        });
-
-    },
-    async getDropdown(){
-      // check if nav options is loaded in store
-      const navOptions = this.utilityStore.getNavBarDropdownOptions
-      if(navOptions.length === 0){
-        //get options from api
-        const response = await apiCall('CONTROLLER_GET_NAV_DROPDOWN_OPTIONS', {})
-          .then((response)=>{
-
-            logger.log('Nav Bar Dropdown options successfully fetched: ', response)
-            this.utilityStore.updateNavBarDropdownOptions(response.data)
-
-          }).catch((error) => {
-            logger.error(error)
-            this.snackbarStore.showSnackbar(error?.message, "red");
-
-        });
-      }
-    },
     logout(){
       this.userStore.logout()
       window.router.push({ path: "/" }).catch(() => {});

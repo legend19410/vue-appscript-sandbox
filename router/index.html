@@ -26,7 +26,9 @@
   const routes = [
     { path: '/', component: LoginPage },
     { path: '/dashboard', component: DashboardPage, meta: {middleware: [auth]}},
-    { path: '/customers', component: CustomerPage, meta: {middleware: [auth]} }
+    { path: '/customers', component: CustomerPage, meta: {middleware: [auth]} },
+    { path: '/users', component: UserPage, meta: {middleware: [auth]} }
+
   ];
 
   // 2. Create router instance

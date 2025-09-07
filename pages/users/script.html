@@ -1,7 +1,7 @@
 <script>
-const CustomerPage = {
-  template: '#customers-page',
-  components: { CustomerOverview, CustomerRequestsTable },
+const UserPage = {
+  template: '#users-page',
+  components: { UsersTable },
   setup(){
     const userStore = useUserStore();
     const snackbarStore = useSnackbarStore();
@@ -18,10 +18,9 @@ const CustomerPage = {
   },
   data() {
     return {
-      activeComponent: markRaw(CustomersTable),
-      customerViewsMap: {
-        'all-customers': markRaw(CustomersTable),
-        'customer-requests': markRaw(CustomerRequestsTable)
+      activeComponent: markRaw(UsersTable),
+      userViewsMap: {
+        'all-users': markRaw(UsersTable)
       }
       
     }
@@ -32,13 +31,16 @@ const CustomerPage = {
       window.router.push({ path: "/" }).catch(() => {});
     },
     switchView(componentViewName) {
-      console.log('SWITCHING COMP:', componentViewName)
-      if (this.customerViewsMap[componentViewName]) {
-        this.activeComponent = this.customerViewsMap[componentViewName]
-      console.log('ACTIVE COMP:', this.activeComponent)
+
+      logger.log('Switching to User Component: ', componentViewName)
+
+      if (this.userViewsMap[componentViewName]) {
+
+        this.activeComponent = this.userViewsMap[componentViewName]
+        logger.log('Active Component is: ', this.activeComponent)
         
       } else {
-        console.warn(`Component "${componentViewName}" not found in customerViewsMap`)
+        logger.warn(`Component "${componentViewName}" not found in customerViewsMap`)
       }
     }
   }

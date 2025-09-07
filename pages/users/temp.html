@@ -1,0 +1,18 @@
+<template id="users-page">
+    <v-layout>
+
+      <v-app-bar color="primary" prominent>
+          <my-app-bar @toggle-drawer="utilityStore.toggleDrawer" :drawer="utilityStore.getDrawer"/>
+      </v-app-bar>
+      
+      <my-nav-drawer 
+        v-model="utilityStore.drawer"
+        :nav-bar-dropdown-options="utilityStore.getNavBarDropdownOptions"
+      ></my-nav-drawer>
+      
+      <v-main style="height:100vh; background-color: #f5f6fa;">
+        <component :is="activeComponent" style="height: 85vh"></component>
+      </v-main>
+
+    </v-layout>
+</template>
