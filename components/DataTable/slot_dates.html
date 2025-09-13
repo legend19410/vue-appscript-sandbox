@@ -1,4 +1,4 @@
-<template v-for="header in headers.filter((header) => header.type==='date')"
+<template v-for="header in headers.filter((header) => header.key ==='date')"
       v-slot:[`item.${header.key}`]="{ value, item }">
       <template v-if="header.key === 'delivery_date'">
         <div class="text-center">

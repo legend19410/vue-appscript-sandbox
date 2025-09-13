@@ -1,6 +1,6 @@
   <template v-slot:top>
       <v-toolbar :elevation="6">
-         <v-breadcrumbs divider="mdi-chevron-right">
+         <!-- <v-breadcrumbs divider="mdi-chevron-right">
             <v-breadcrumbs-item href="/" >
               <v-icon start small color="primary">mdi-home</v-icon>
             </v-breadcrumbs-item> > 
@@ -12,6 +12,20 @@
             <v-breadcrumbs-item active>
               Customer Requests
             </v-breadcrumbs-item>
+          </v-breadcrumbs> -->
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:item="{ item }">
+              <router-link
+                v-if="item.to"
+                :to="item.to"
+                class="text-primary font-weight-medium"
+              >
+                {{ item.text }}
+              </router-link>
+              <span v-else class="text-grey-darken-1">
+                {{ item.text }}
+              </span>
+            </template>
           </v-breadcrumbs>
 
         <v-spacer></v-spacer>

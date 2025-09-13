@@ -5,7 +5,13 @@
     const utilityStore = useUtilityStore();
     const customerStore = useCustomerStore();
     const snackbarStore = useSnackbarStore();
-    return { utilityStore, customerStore, snackbarStore};
+    const breadcrumbs = [
+      { text: 'Home', to: '/' },
+      { text: 'Customers', to: '/customers' },
+      { text: 'Customer Requests' } // no "to" → current page
+    ]
+
+    return { utilityStore, customerStore, snackbarStore, breadcrumbs};
   },
   data() {
     return {

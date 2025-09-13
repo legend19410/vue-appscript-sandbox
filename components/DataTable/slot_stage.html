@@ -1,0 +1,28 @@
+<template v-for="header in headers.filter((header) => header.key==='stage')"
+      v-slot:[`item.${header.key}`]="{ header, value }">
+
+    <div v-if="value">
+      <v-chip :color="value === 'Request Submitted' ? 'red' : value === 'Under Construction' ? 'orange' : value === 'Awaiting Delivery' ? 'purple': value === 'Delivered' ? 'green': value === 'Returned' ? 'blue': 'blue'"
+        :prepend-icon="value === 'Request Submitted' ? 'mdi-alert' : value === 'Under Construction' ? 'mdi-progress-alert' : value === 'Awaiting Delivery' ? 'mdi-progress-alert' : 'mdi-checkbox-marked-circle'"
+        size="small">
+        {{value}}
+      </v-chip>
+    </div>
+
+</template>
+
+<!-- create
+
+Request Submitted - red
+Under Construction - orange
+Awaiting Delivery - purple
+Delivered - green
+Returned - blue
+
+rental
+
+Request Submitted - red
+Awaiting Delivery - purple
+Delivered - green
+Returned - blue -->
+

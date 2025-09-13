@@ -10,9 +10,35 @@ const UserService = {
   },
 
   getAllUsers(){
-    const userRepository = new SheetORM(CONFIG.USERS.SHEET_ID, CONFIG.USERS.SHEET_NAME, CONFIG.USERS.DEFAULT_EXCLUDES)
-    const user = userRepository.find().all()
-    return user;
+    const usersRepository = new SheetORM(CONFIG.USERS.SHEET_ID, CONFIG.USERS.SHEET_NAME, CONFIG.USERS.DEFAULT_EXCLUDES)
+
+    const includedHeaders = [
+      'id',
+      'email',
+      'firstName',
+      'lastName',
+      'gender',
+      'status',
+      'emailVerified',
+      'emailVerifiedAt',
+      'createdAt',
+      'updatedAt'
+
+    ]
+
+    const users = usersRepository.find(includedHeaders)
+    const headers = users.getHeaders().filter(header=>{
+      return includedHeaders.includes(header)
+    }).map(header=>{
+      return {title: UtilityService.camelCaseToTitleCase(header), key: header }
+    })
+
+    headers.push({ title: "", align: "start", key: "actions" })
+
+    const data = users.all()
+
+    return {headers, data};
+
   },
 
   findUserByEmail(email) {

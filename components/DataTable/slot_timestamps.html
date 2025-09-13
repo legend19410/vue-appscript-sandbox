@@ -1,4 +1,4 @@
-<template v-for="header in headers.filter((header) => header.type==='timestamp')"
+<template v-for="header in headers.filter((header) => header.key ==='createdAt' || header.key ==='updatedAt' || header.key ==='emailVerifiedAt')"
       v-slot:[`item.${header.key}`]="{ header, value }">
       {{ new Date(value).toLocaleString("en-GB")}}
   </template>
