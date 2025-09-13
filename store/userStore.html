@@ -8,7 +8,10 @@ const useUserStore = defineStore('user', {
     refreshToken: null,
     isAuthenticated: false,
     isLoading: false,
-    allUsers: []
+    allUsers: {
+      data: [],
+      headers: []
+    },
   }),
 
   getters: {
@@ -18,11 +21,12 @@ const useUserStore = defineStore('user', {
     getLoadingStatus: (state) => state.isLoading,
     getTwoStepVerificationId: (state) => state.twoStepVerificationId,
     getAllUsers: (state) => state.allUsers
+
   },
 
   actions: {
     async fetchUsersIfEmpty() {
-      if (this.allUsers.length) return
+      if (this.allUsers['data'].length > 0) return
 
       const utilityStore = useUtilityStore()
       const snackbarStore = useSnackbarStore()
@@ -33,6 +37,7 @@ const useUserStore = defineStore('user', {
         const response = await apiCall('CONTROLLER_GET_ALL_USERS', {})
 
         this.allUsers = response.data
+
    
         logger.log('Users successfully fetched: ', response)
       } catch (error) {

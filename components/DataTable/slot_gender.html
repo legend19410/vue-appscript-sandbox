@@ -1,0 +1,16 @@
+<template v-for="header in headers.filter((header) => header.key === 'gender')"
+  v-slot:[`item.${header.key}`]="{ header, value }">
+
+  <div v-if="value">
+    <v-chip 
+      :color="value === 'male' ? 'blue' : value === 'female' ? 'pink' : 'grey'"
+      :prepend-icon="value === 'Male' ? 'mdi-gender-male' : value === 'Female' ? 'mdi-gender-female' : 'mdi-gender-non-binary'"
+      size="small"
+    >
+      {{ value }}
+    </v-chip>
+  </div>
+
+</template>
+
+

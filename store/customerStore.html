@@ -2,18 +2,46 @@
 
 const useCustomerStore = defineStore('customer', {
   state: () => ({
+    customers: {
+      data: [],
+      headers: []
+    },
     customerRequests: [],
     customerRequestHeaders: [],
     customerRequestSummary: {}
   }),
 
   getters: {
+    getCustomers: (state) => state.customers,
     getCustomerRequests: (state) => state.customerRequests,
     getCustomerRequestHeaders: (state) => state.customerRequestHeaders,
     getCustomerRequestSummary: (state) => state.customerRequestSummary
   },
 
   actions: {
+     async fetchCustomersIfEmpty() {
+       if (this.customers['data'].length > 0) return
+
+      const utilityStore = useUtilityStore()
+      const snackbarStore = useSnackbarStore()
+
+      try {
+        utilityStore.showLoadingSpinner()
+
+        const response = await apiCall('CONTROLLER_GET_ALL_CUSTOMERS', {})
+
+        this.customers = response.data
+
+   
+        logger.log('Customers successfully fetched: ', response)
+      } catch (error) {
+        logger.error(error)
+        snackbarStore.showSnackbar(error?.message, "red")
+      } finally {
+        utilityStore.hideLoadingSpinner()
+      }
+
+    },
     async fetchCustomerRequestsIfEmpty() {
       if (this.customerRequests.length) return
 
